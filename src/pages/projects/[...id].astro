@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "../../layout/layout.astro";
+
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    return projects.map((project) => ({
+        params: { id: project.id },
+        props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout>
+    <div class="place-items-center p-20">
+        <div
+            class="bg-amber-100 w-4/5 shadow-xl rounded-xl p-5"
+            transition:name={project.id + "note"}
+        >
+            <h1>{project.data.title}</h1>
+            <Image
+                src={project.data.thumbnail}
+                alt={project.data.thumbnailAlt}
+                class="my-5"
+                transition:name={project.id + "image"}
+            />
+            <div>
+                {
+                    `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum,
+                dolorem accusantium rerum non nesciunt sunt ad maxime
+                blanditiis. Quae explicabo quibusdam ducimus nesciunt ab porro,
+                inventore quasi. Non, quisquam iure?\n`.repeat(100)
+                }
+            </div>
+        </div>
+    </div>
+</Layout>
