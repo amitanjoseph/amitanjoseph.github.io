@@ -10,9 +10,11 @@ import { ClientRouter } from "astro:transitions";
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content={Astro.generator} />
         <title>Astro</title>
-        <ClientRouter fallback="none" />
+        <ClientRouter fallback="swap" />
     </head>
-    <body class="h-full flex flex-col place-items-center">
+    <body
+        class="h-full flex flex-col place-items-center dark:text-white dark:bg-black"
+    >
         <div class="w-2/3">
             <slot />
         </div>
