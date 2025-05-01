@@ -6,16 +6,30 @@ import { ClientRouter } from "astro:transitions";
 <html lang="en" class="font-figtree">
     <head>
         <meta charset="utf-8" />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/favicon-96x96.png"
+            sizes="96x96"
+        />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <meta name="apple-mobile-web-app-title" content="Amitan's Portfolio" />
+        <link rel="manifest" href="/site.webmanifest" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content={Astro.generator} />
-        <title>Astro</title>
+        <title>Amitan's Portfolio</title>
         <ClientRouter fallback="swap" />
     </head>
     <body
         class="h-full flex flex-col place-items-center dark:text-white dark:bg-black"
     >
-        <div class="w-2/3">
+        <div class="w-11/12 md:w-2/3">
             <slot />
         </div>
     </body>

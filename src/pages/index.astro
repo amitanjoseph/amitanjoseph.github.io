@@ -7,12 +7,16 @@ import profilePic from "../assets/profile.jpg";
 
 <Layout>
 	<div>
-		<div class="flex items-center my-5 justify-evenly">
-			<div class="flex flex-col gap-2 w-[40em] justi">
-				<p class="font-bold text-4xl w-full">
+		<div
+			class="flex flex-col md:flex-row items-center my-5 justify-evenly gap-2"
+		>
+			<div
+				class="order-last md:order-first flex flex-col items-center md:items-start gap-3 md:w-[40em]"
+			>
+				<p class="font-bold text-4xl w-full text-center md:text-left">
 					Hi there! My name is Amitan Joseph.
 				</p>
-				<p class="w-full">
+				<p class="w-full text-center md:text-left">
 					I'm a 1st Year Engineering Student at the University of
 					Cambridge. My interests include Robotics, Electronics,
 					Synthetic Biology (yes ik it's pretty left field),
@@ -20,13 +24,13 @@ import profilePic from "../assets/profile.jpg";
 					collection of the projects I've done over the years. Enjoy!
 				</p>
 			</div>
-			<div>
-				<Image
-					src={profilePic}
-					alt="Profile Picture"
-					class="rounded-full w-[20vw]"
-				/>
-			</div>
+
+			<Image
+				src={profilePic}
+				alt="Me at a Christ's College Formal"
+				class="rounded-full w-1/2 md:w-[20vw]"
+				loading="eager"
+			/>
 		</div>
 		<CardDisplay />
 	</div>

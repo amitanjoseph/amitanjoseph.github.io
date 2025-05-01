@@ -15,22 +15,19 @@ const { project } = Astro.props;
 
 <script>
     import { navigate } from "astro:transitions/client";
+    let escape: () => void;
+    let escToEscape: (event: KeyboardEvent) => void;
+    let clickToEscape: (event: MouseEvent) => void;
     document.addEventListener("astro:page-load", () => {
         const target = document.querySelector("#note");
+        document.removeEventListener("click", clickToEscape, false);
+        document.removeEventListener("keydown", escToEscape, false);
         if (target) {
-            let escape: () => void;
-            let escToEscape: (event: KeyboardEvent) => void;
-            let clickToEscape: (event: MouseEvent) => void;
             escToEscape = (event: KeyboardEvent) => {
-                if (event.key === "Escape") escape();
+                if (event.key === "Escape") navigate("/");
             };
             clickToEscape = (event: MouseEvent) => {
-                if (!event.composedPath().includes(target)) escape();
-            };
-            escape = () => {
-                document.removeEventListener("click", clickToEscape, false);
-                document.removeEventListener("keydown", escToEscape, false);
-                navigate("/");
+                if (!event.composedPath().includes(target)) navigate("/");
             };
             document.addEventListener("click", clickToEscape, false);
             document.addEventListener("keydown", escToEscape, false);
@@ -41,34 +38,41 @@ const { project } = Astro.props;
 <Layout>
     <div class="place-items-center py-20">
         <div
-            class="bg-white dark:bg-black outline-black dark:outline-white outline-[2px] shadow-xl dark:shadow-md dark:shadow-white rounded-xl py-7 px-10 flex flex-col gap-2"
+            class="bg-white dark:bg-black outline-black dark:outline-white outline-[2px] shadow-xl dark:shadow-md dark:shadow-white rounded-xl"
             id="note"
             transition:name={project.id + "note"}
         >
-            <p
-                class="font-bold text-4xl w-full"
-                transition:name={project.id + "title"}
-            >
-                {project.data.title}
-            </p>
-            <div class="flex justify-between">
+            <a href="/">
+                <span class="material-symbols-outlined mx-4 mt-4">
+                    arrow_back
+                </span>
+            </a>
+            <div class="py-2 px-12 flex flex-col gap-2">
                 <p
-                    class="text-lg italic"
-                    transition:name={project.id + "shortDesc"}
+                    class="font-bold text-4xl w-full"
+                    transition:name={project.id + "title"}
                 >
-                    {project.data.shortDesc}
+                    {project.data.title}
                 </p>
-                <p transition:name={project.id + "status"}>
-                    Status: {project.data.status}
-                </p>
-            </div>
-            <div>
-                {
-                    `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum,
+                <div class="flex justify-between">
+                    <p
+                        class="text-lg italic"
+                        transition:name={project.id + "shortDesc"}
+                    >
+                        {project.data.shortDesc}
+                    </p>
+                    <p transition:name={project.id + "status"}>
+                        Status: {project.data.status}
+                    </p>
+                </div>
+                <div>
+                    {
+                        `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum,
                 dolorem accusantium rerum non nesciunt sunt ad maxime
                 blanditiis. Quae explicabo quibusdam ducimus nesciunt ab porro,
                 inventore quasi. Non, quisquam iure?\n`.repeat(100)
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
