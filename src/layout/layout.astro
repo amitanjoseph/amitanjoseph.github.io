@@ -3,7 +3,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 ---
 
-<html lang="en">
+<html lang="en" class="font-figtree">
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -12,7 +12,9 @@ import { ClientRouter } from "astro:transitions";
         <title>Astro</title>
         <ClientRouter />
     </head>
-    <body class="h-full">
-        <slot />
+    <body class="h-full flex flex-col place-items-center">
+        <div class="w-2/3">
+            <slot />
+        </div>
     </body>
 </html>

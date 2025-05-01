@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+---
+
+<div class="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-20">
+    {
+        projects.map((project) => {
+            return (
+                <a href={`/projects/${project.id}`}>
+                    <div
+                        class="bg-white outline-black outline-[2px] aspect-square shadow-xl rounded-xl flex flex-col p-4 gap-2 min-h-0"
+                        transition:name={project.id + "note"}
+                    >
+                        <p
+                            class="font-bold text-4xl w-full"
+                            transition:name={project.id + "title"}
+                        >
+                            {project.data.title}
+                        </p>
+                        <p
+                            class="text-lg italic"
+                            transition:name={project.id + "shortDesc"}
+                        >
+                            {project.data.shortDesc}
+                        </p>
+                        <div transition:name={project.id + "status"}>
+                            Status: {project.data.status}
+                        </div>
+                    </div>
+                </a>
+            );
+        })
+    }
+</div>

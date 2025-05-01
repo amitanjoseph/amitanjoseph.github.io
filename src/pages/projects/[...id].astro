@@ -1,6 +1,5 @@
 ---
 import { getCollection, render } from "astro:content";
-import { Image } from "astro:assets";
 import Layout from "../../layout/layout.astro";
 
 export async function getStaticPaths() {
@@ -20,13 +19,13 @@ const { project } = Astro.props;
             class="bg-amber-100 w-4/5 shadow-xl rounded-xl p-5"
             transition:name={project.id + "note"}
         >
-            <h1>{project.data.title}</h1>
-            <Image
-                src={project.data.thumbnail}
-                alt={project.data.thumbnailAlt}
-                class="my-5"
-                transition:name={project.id + "image"}
-            />
+            <h1 transition:name={project.id + "title"}>{project.data.title}</h1>
+            <p transition:name={project.id + "shortDesc"}>
+                {project.data.shortDesc}
+            </p>
+            <p transition:name={project.id + "status"}>
+                Status: {project.data.status}
+            </p>
             <div>
                 {
                     `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum,
