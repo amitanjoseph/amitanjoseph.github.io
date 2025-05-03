@@ -1,7 +1,6 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import Layout from "../../layout/layout.astro";
-
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
     return projects.map((project) => ({
@@ -15,7 +14,6 @@ const { project } = Astro.props;
 
 <script>
     import { navigate } from "astro:transitions/client";
-    let escape: () => void;
     let escToEscape: (event: KeyboardEvent) => void;
     let clickToEscape: (event: MouseEvent) => void;
     document.addEventListener("astro:page-load", () => {
@@ -47,21 +45,15 @@ const { project } = Astro.props;
                     arrow_back
                 </span>
             </a>
-            <div class="py-2 px-12 flex flex-col gap-2">
-                <p
-                    class="font-bold text-4xl w-full"
-                    transition:name={project.id + "title"}
-                >
+            <div class="py-2 px-12 flex flex-col gap-2 pb-10">
+                <p class="font-bold text-4xl w-full">
                     {project.data.title}
                 </p>
                 <div class="flex justify-between">
-                    <p
-                        class="text-lg italic"
-                        transition:name={project.id + "shortDesc"}
-                    >
+                    <p class="text-lg italic">
                         {project.data.shortDesc}
                     </p>
-                    <p transition:name={project.id + "status"}>
+                    <p>
                         Status: {project.data.status}
                     </p>
                 </div>
