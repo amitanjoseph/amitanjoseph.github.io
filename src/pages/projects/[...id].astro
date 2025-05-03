@@ -49,11 +49,11 @@ const { project } = Astro.props;
                 <p class="font-bold text-4xl w-full">
                     {project.data.title}
                 </p>
-                <div class="flex justify-between">
+                <div class="flex justify-between items-center gap-2">
                     <p class="text-lg italic">
                         {project.data.shortDesc}
                     </p>
-                    <p>
+                    <p class="min-w-fit">
                         Status: {project.data.status}
                     </p>
                 </div>
