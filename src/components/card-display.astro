@@ -23,7 +23,7 @@ const projects = (await getCollection("projects")).filter((project) => {
                     transition:name={project.id + "note"}
                 >
                     <a
-                        href={`/projects/${project.data.title.replaceAll(" ", "-")}`}
+                        href={`/projects/${project.data.title.replaceAll(" ", "-").toLowerCase()}`}
                         class="flex flex-col gap-2"
                     >
                         <p class="font-bold text-3xl w-full px-4 pt-4">
@@ -41,7 +41,7 @@ const projects = (await getCollection("projects")).filter((project) => {
                             const untag = tag.replaceAll("-", " ");
                             if (index === project.data.tags.length - 1) {
                                 return (
-                                    <a class="inline-block underline" href={`/tags/${tag}`}>
+                                    <a class="inline-block underline" href={`/tags/${tag.toLowerCase()}`}>
                                         {untag}
                                     </a>
                                 );
@@ -49,7 +49,7 @@ const projects = (await getCollection("projects")).filter((project) => {
                                 return (
                                     <a
                                         class="inline-block underline"
-                                        href={`/tags/${tag}`}
+                                        href={`/tags/${tag.toLowerCase()}`}
                                     >
                                         {untag}
                                     </a>

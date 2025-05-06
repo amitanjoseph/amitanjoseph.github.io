@@ -4,7 +4,7 @@ import Layout from "../../layout/layout.astro";
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
     return projects.map((project) => ({
-        params: { title: project.data.title.replaceAll(" ", "-") },
+        params: { title: project.data.title.replaceAll(" ", "-").toLowerCase() },
         props: { project },
     }));
 }
@@ -68,7 +68,7 @@ const {Content} = await render(project);
                             const untag = tag.replaceAll("-", " ");
                             if (index === project.data.tags.length - 1) {
                                 return (
-                                    <a class="inline-block underline" href={`/tags/${tag}`}>
+                                    <a class="inline-block underline" href={`/tags/${tag.toLowerCase()}`}>
                                         {untag}
                                     </a>
                                 );
@@ -76,7 +76,7 @@ const {Content} = await render(project);
                                 return (
                                     <a
                                         class="inline-block underline"
-                                        href={`/tags/${tag}`}
+                                        href={`/tags/${tag.toLowerCase()}`}
                                     >
                                         {untag}
                                     </a>
