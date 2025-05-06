@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layout/layout.astro";
+import CardDisplay from "../../components/card-display.astro";
+import { Image } from "astro:assets";
+import profilePic from "../../assets/profile.jpg";
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    return projects
+        .flatMap((project) => project.data.tags)
+        .map((tag) => ({
+            params: { tag: tag },
+            props: { tag },
+        }));
+}
+
+const { tag } = Astro.props;
+---
+
+<Layout>
+    <div class="mb-5">
+        <div
+            class="flex flex-col md:flex-row items-center my-5 justify-evenly gap-2"
+        >
+            <div
+                class="order-last md:order-first flex flex-col items-center md:items-start gap-3 md:w-[40em]"
+            >
+                <p class="font-bold text-4xl w-full text-center md:text-left">
+                    Hi there! My name is Amitan Joseph.
+                </p>
+                <p class="w-full text-center md:text-left">
+                    I'm a 1st Year Engineering Student at the University of
+                    Cambridge. My interests include Robotics, Electronics,
+                    Synthetic Biology (yes ik it's pretty left field),
+                    Programming and Programming Languages. This site is a
+                    collection of the projects I've done over the years. Find me
+                    on
+                    <a
+                        class="fa-brands fa-github"
+                        href="https://github.com/amitanjoseph"
+                    >
+                    </a> and
+                    <a
+                        class="fa-brands fa-linkedin"
+                        href="www.linkedin.com/in/amitan-joseph"
+                    >
+                    </a>. Enjoy!
+                </p>
+            </div>
+
+            <Image
+                src={profilePic}
+                alt="Me at a Christ's College Formal"
+                class="rounded-full w-1/2 md:w-[20vw]"
+                loading="eager"
+            />
+        </div>
+        <CardDisplay tag={tag} />
+    </div>
+</Layout>

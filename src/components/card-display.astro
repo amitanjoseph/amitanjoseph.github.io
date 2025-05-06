@@ -1,27 +1,64 @@
 ---
 import { getCollection } from "astro:content";
 
-const projects = await getCollection("projects");
+interface Props {
+    tag: string | null;
+}
+
+const { tag } = Astro.props;
+
+const projects = (await getCollection("projects")).filter((project) => {
+    return tag ? project.data.tags.includes(tag) : true;
+});
 ---
 
 <div
     class="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-7 md:gap-10 md:pt-5 pb-5 pt-2"
 >
     {
-        projects.map((project) => {
+        projects.filter((project) => !project.data.draft).toSorted((a, b) =>  Date.parse(b.data.sortDate) - Date.parse(a.data.sortDate)).map((project) => {
             return (
-                <a href={`/projects/${project.id}`}>
-                    <div
-                        class="bg-white dark:bg-black outline-black dark:outline-white outline-[2px] shadow-xl dark:shadow dark:shadow-white transition duration-300 ease-in-out hover:shadow-2xl hover:scale-103 dark:hover:shadow-md rounded-xl flex flex-col p-4 gap-2 min-h-0"
-                        transition:name={project.id + "note"}
+                <div
+                    class="bg-white dark:bg-black outline-black dark:outline-white outline-[2px] shadow-xl dark:shadow dark:shadow-white transition duration-300 ease-in-out hover:shadow-2xl hover:scale-103 dark:hover:shadow-md rounded-xl flex flex-col min-h-0 h-fit"
+                    transition:name={project.id + "note"}
+                >
+                    <a
+                        href={`/projects/${project.data.title.replaceAll(" ", "-")}`}
+                        class="flex flex-col gap-2"
                     >
-                        <p class="font-bold text-3xl w-full">
+                        <p class="font-bold text-3xl w-full px-4 pt-4">
                             {project.data.title}
                         </p>
-                        <p class="text-lg italic">{project.data.shortDesc}</p>
-                        <div>Status: {project.data.status}</div>
+                        <p class="text-lg/5 italic px-4">{project.data.shortDesc}</p>
+                        {project.data.status === "Done ✅" ? 
+                        <div class="bg-green-400 px-4">Status: {project.data.status}</div> :
+                        <div class="bg-yellow-500 px-4">Status: {project.data.status}</div> 
+                        }
+                    </a>
+                    <div class="px-4 pb-4 pt-2">
+                        Tags:{" "}
+                        {project.data.tags.map((tag, index) => {
+                            const untag = tag.replaceAll("-", " ");
+                            if (index === project.data.tags.length - 1) {
+                                return (
+                                    <a class="inline-block underline" href={`/tags/${tag}`}>
+                                        {untag}
+                                    </a>
+                                );
+                            } else {
+                                return (
+                                    <a
+                                        class="inline-block underline"
+                                        href={`/tags/${tag}`}
+                                    >
+                                        {untag}
+                                    </a>
+                                    <span> </span>
+                                );
+                            }
+                        })}
                     </div>
-                </a>
+                </div>
             );
         })
     }

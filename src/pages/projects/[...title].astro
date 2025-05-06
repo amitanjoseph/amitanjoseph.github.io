@@ -1,0 +1,121 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layout/layout.astro";
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    return projects.map((project) => ({
+        params: { title: project.data.title.replaceAll(" ", "-") },
+        props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+
+const {Content} = await render(project);
+---
+
+<script>
+    import { navigate } from "astro:transitions/client";
+    let escToEscape: (event: KeyboardEvent) => void;
+    let clickToEscape: (event: MouseEvent) => void;
+    document.addEventListener("astro:page-load", () => {
+        const target = document.querySelector("#note");
+        document.removeEventListener("click", clickToEscape, false);
+        document.removeEventListener("keydown", escToEscape, false);
+        if (target) {
+            escToEscape = (event: KeyboardEvent) => {
+                if (event.key === "Escape") navigate("/");
+            };
+            clickToEscape = (event: MouseEvent) => {
+                if (!event.composedPath().includes(target)) navigate("/");
+            };
+            document.addEventListener("click", clickToEscape, false);
+            document.addEventListener("keydown", escToEscape, false);
+        }
+    });
+</script>
+
+<Layout>
+    <div class="place-items-center md:py-20 py-5 pb-10">
+        <div
+            class="bg-white dark:bg-black outline-black dark:outline-white outline-[2px] shadow-xl dark:shadow-md dark:shadow-white rounded-xl"
+            id="note"
+            transition:name={project.id + "note"}
+        >
+            <a href="/">
+                <span class="material-symbols-outlined mx-4 mt-4">
+                    arrow_back
+                </span>
+            </a>
+            <div class="pt-0 md:pt-2 px-12 flex flex-col gap-4 md:gap-2 pb-10">
+                <span class="font-bold text-4xl w-full">
+                    {project.data.title}
+                </span>
+                <div
+                    class="flex flex-col md:flex-row md:justify-between md:items-center gap-1 md:gap-2"
+                >
+                    <span class="text-lg italic">
+                        {project.data.shortDesc}
+                    </span>
+                    <span class="min-w-fit">
+                        Status: {project.data.status}
+                    </span>
+                </div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-1 md:gap-2">
+                    <div>
+                        Tags:{" "}
+                        {project.data.tags.map((tag, index) => {
+                            const untag = tag.replaceAll("-", " ");
+                            if (index === project.data.tags.length - 1) {
+                                return (
+                                    <a class="inline-block underline" href={`/tags/${tag}`}>
+                                        {untag}
+                                    </a>
+                                );
+                            } else {
+                                return (
+                                    <a
+                                        class="inline-block underline"
+                                        href={`/tags/${tag}`}
+                                    >
+                                        {untag}
+                                    </a>
+                                    <span> </span>
+                                );
+                            }
+                        })}
+                    </div>
+                    <span>
+                        {(new Date(Date.parse(project.data.sortDate))).toLocaleDateString(undefined, {
+                            month: "long",
+                            year: "numeric",
+                        })}
+                    </span>
+                </div>
+                <article class="py-2">
+                    <Content/>
+                </article>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style is:global>
+    @reference "../../styles/global.css";
+
+    article h1 {
+        @apply text-3xl/loose;
+    }
+    article a {
+        @apply underline;
+    }
+    article li {
+        @apply list-disc;
+    }
+    article ul {
+        @apply  ps-5 list-inside my-2;
+    }
+    article p {
+        @apply my-2;
+    }
+</style>
