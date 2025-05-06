@@ -41,7 +41,7 @@ const projects = (await getCollection("projects")).filter((project) => {
                             const untag = tag.replaceAll("-", " ");
                             if (index === project.data.tags.length - 1) {
                                 return (
-                                    <a class="inline-block underline" href={`/tags/${tag.toLowerCase()}`}>
+                                    <a class="inline-block underline" href={`/tags/${tag.toLowerCase()}`} data-astro-reload>
                                         {untag}
                                     </a>
                                 );
@@ -50,7 +50,7 @@ const projects = (await getCollection("projects")).filter((project) => {
                                     <a
                                         class="inline-block underline"
                                         href={`/tags/${tag.toLowerCase()}`}
-                                    >
+                                        data-astro-reload>
                                         {untag}
                                     </a>
                                     <span> </span>
