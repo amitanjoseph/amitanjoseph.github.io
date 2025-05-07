@@ -1,10 +1,60 @@
 ---
 title: "Computing NEA"
-shortDesc: "Every musician's dream! A tool for sightreading music and more..."
+shortDesc: "Every musician's dream! A tool for sight-reading music and more..."
 status: "Done ✅"
 sortDate: "2024-03-14"
 tags: ["Programming", "Android", "Computer-Vision","Dart", "Kotlin"]
-draft: true
 ---
 
-This is my Computing NEA.
+# Overview
+For my Computer Science A-Level, we were tasked with a programming project
+ to test our coding and planning skills. We had unlimited choice as to what
+ our app did, so I ended up make a 2.5k LOC (insane!) Android app designed
+ to sight-read music. It allowed users to take pictures of sheet music which
+ it analysed with computer vision then played back. There was also the ability
+ to store and manage the music, as well as export it to MIDI. For my first ever
+ mobile app, I think this is quite impressive (if I do say so myself). You can 
+ find the code [here](https://github.com/amitanjoseph/sheet_music_app).
+
+# Demo
+Here is a video showing off some of its features:
+<iframe width="100%" height="100%" style="aspect-ratio: 16/9;" src="https://www.youtube-nocookie.com/embed/bVvXOTBE-_w?si=OyF29HXvPTHr6E3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+# Features
+The app is built using the [Flutter](https://flutter.dev/) framework. This was 
+ a great choice, and I don't know if I would have been able to get as far without
+ it. The tooling is great, the ecosystem is great and the library is great! For 
+ state management, I used the magical [Riverpod](https://riverpod.dev/). It really
+ does feel like magic, the way it automatically provides access to certain state,
+ allowing simple dependency access without much boilerplate, whilst maintaining 
+ encapsulation. Inspired by the [Elm Architecture](https://guide.elm-lang.org/architecture/),
+ I had one source of truth that controlled the state for most app, allowing for
+ simple updates and improved maintainability (only one thing to keep track of).
+ I also had to use OOP for every UI component, which worked well with Dart. It
+ meant I didn't have to repeat myself too much if I modularised correctly (yay!
+ less work!).
+
+After the computer vision stuff (explained in the next section) the app stored
+ the music in its own internal representation called SMN (Sheet Music Notation - 
+ creative, I know) which it could serialise and deserialise from the disk, or 
+ convert to MIDI. I also used a sqlite database to store the files. That's what
+ powers the filtering and sorting of any input files.
+
+# Computer Vision
+To do the actual note analysis, I had to use Kotlin to interact with the OpenCV
+ Java bindings. The whole process involved just 2 major steps - identifying the 
+ stave and identifying the note heads. To find the stave, I calculated the number
+ of black pixels on each row of the image and identified the rows which were 
+ 'turning points' - i.e. they had less black pixels on the row before and after.
+ Taking the 5 turning points with the most black pixels gave the stave very accurately.
+ This process worked as the stave is surrounded by white pixels. So based on lighting,
+ each stave line should be darkest at its centre and go lighter moving away from the
+ centre. To find the note heads, I simply used template matching with a note heads I
+ already gathered. These had to be rescaled to match of the size of noteheads in the image,
+ but then worked surprisingly well for identifying notes. Overall, the algorithm was
+ fairly simple but hard to improve without much more complexity. 
+
+# Conclusion
+I'm really proud of this project. I sunk a lot of time into this, and it turned out
+ way better than I expected! Only disappointing thing is that I never came up with a
+ catchy name for it - I've had a whole year and I still can't :(.
