@@ -1,0 +1,35 @@
+---
+title: "Integrated Electrical Project"
+shortDesc: "Coursework can be fun, sometimes."
+status: "Done ✅"
+sortDate: "2025-03-11"
+tags: ["Electronics", "Coursework", "Analog-Electronics" ]
+---
+import vid from "./6_x_axis_test(1).mp4";
+import "./breadboard(1).jpg";
+
+A big chunk of coursework we had to complete was the Integrated
+ Electrical Project (IEP). We spent multiple weeks building circuits
+ and analysing them using the [Picoscope](https://www.picotech.com/products/oscilloscope),
+ a USB oscilloscope. All the learning we did then accumulated into 1
+ last final project - to design a circuit that could play a sound
+ with pitch varying with an accelerometer reading. Here's the final result:
+
+<video controls>
+ <source src={vid} type="video/mp4" />
+</video>
+
+It may look like a mess of wires, but it works! You can see its main 
+ components below.
+
+ ![Breadboard annotated with components. From left to right: Voltage
+ Frequency Generator, Difference Amplifier, Buffer, Accelerometer, 
+ 3.3V Power Supply and Bipolar Power Supply.](./breadboard(1).jpg)
+
+It works by using a difference amplifier to adjust and amplify the 
+ accelerometer signal to ranging from 0 to 2V across the range of 
+ motion. The voltage frequency generator then takes that as input
+ and outputs a square wave of frequency depending on the input voltage.
+ This is then fed to a mosfet used to drive a speaker.
+
+Debugging real circuits is hard but overall quite fun!
